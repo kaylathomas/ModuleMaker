@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: ModuleMaker
+Version: 0.2
+Summary: Makes creating PyPi modules much easier, and provides a number of helpful commands to publish and maintain your package.
+Home-page: https://github.com/kaylathomas/ModuleMaker
+Download-URL: https://github.com/kaylathomas/ModuleMaker/archive/refs/tags/v_0.2.tar.gz
+Author: KayLa Thomas
+Author-email: kaylathomas.dev@gmail.com
+License: MIT
+Keywords: module,python,pypi,generate,update,scaffold
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: FilesNFolders
+Requires-Dist: RailsStringMethods
+Requires-Dist: click

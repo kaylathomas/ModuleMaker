@@ -1,6 +1,6 @@
 import click
-from ModuleMaker.new.main import new_command
-from ModuleMaker.export.main import export_command
+from new.main import new_command
+from export.main import export_command
 
 @click.group()
 def cli():

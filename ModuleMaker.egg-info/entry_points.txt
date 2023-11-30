@@ -1,0 +1,4 @@
+[console_scripts]
+mm = module_maker_core:cli
+mm_export = export.main:export_command
+mm_new = new.main:new_command

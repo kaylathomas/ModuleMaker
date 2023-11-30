@@ -2,8 +2,13 @@
 import click
 import json
 import subprocess
-from FilesNFolders import generate_template, generate_files, generate_file_contents
+
+# Dependencies
+import FilesNFolders
 from RailsStringMethods import underscore
+
+# File contents
+from .new.module_structure import module_layout
 
 @click.command()
 @click.argument('module_name')
@@ -14,49 +19,31 @@ def new_command(module_name, submodules, click, init):
     folders, files, file_contents = build_module(module_name, submodules, use_click=click)
     update_gitignore_and_module_info(module_name, files, file_contents)
 
-    generate_template(folders=folders, files=files, file_contents=file_contents)
-
     if init:
         initialize_git_repository(module_name)
 
 def build_module(module_name, submodules, use_click=False):
-    core_file_name = f"{underscore(module_name)}_core.py"
-    folders = [module_name]
-    files = [
-        f"{module_name}/setup.py",
-        f"{module_name}/setup.cfg",
-        f"{module_name}/README.md",
-        f"{module_name}/.gitignore",
-        f"{module_name}/__init__.py",
-        f"{module_name}/{core_file_name}",
-        f"{module_name}/module_info.json"
-    ]
+    # Generate the structure of the module
+    structure = module_layout(module_name)
 
-    file_contents = {
-        f"{module_name}/setup.py": setup_py_contents(module_name),
-        f"{module_name}/setup.cfg": ["[metadata]\ndescription-file = README.md\n"],
-        f"{module_name}/{core_file_name}": core_file_contents(use_click),
-        # ... other default contents ...
-    }
+    generate_template(
+        structure["folders"],
+        structure["files"],
+        structure["file_contents"],
+    )
 
     # Define initial content for module_info.json
     module_info_content = {
         "module_name": module_name,
-        "version": "0.1",
+        "version_number_0": 0,
+        "version_number_1": 0,
+        "version_number_2": 1,
         "required_modules": [],
         "packages": [underscore(submodule) for submodule in submodules]
     }
 
+    # Generate module_info.json file
     file_contents[f"{module_name}/module_info.json"] = [json.dumps(module_info_content, indent=4)]
-
-    for submodule in submodules:
-        submodule_folder = f"{module_name}/{underscore(submodule)}"
-        submodule_file = f"{submodule_folder}/main.py"
-        folders.append(submodule_folder)
-        files.append(submodule_file)
-        file_contents[submodule_file] = ["# main.py\n"]
-
-    return folders, files, file_contents
 
 def update_gitignore_and_module_info(module_name, files, file_contents):
     gitignore_path = f"{module_name}/.gitignore"
